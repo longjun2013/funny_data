@@ -37,13 +37,13 @@ puts execution;
 puts _eventId;
 
 puts cookie;
-def post(uri, cookie, lt, execution, _eventId)
+def post(uri, cookie, lt, execution, _eventId, password)
 	uri = URI.parse(uri);
 	http = Net::HTTP.new(uri.host, uri.port);
 	http.use_ssl = true;
 
 	request = Net::HTTP::Post.new(uri.path);
-	request.set_form_data('username' => 'ljliu', 'password' => '99142972', 'lt' => lt, 'execution' => execution, '_eventId' => _eventId, 'submit' => 'LOGIN');
+	request.set_form_data('username' => 'ljliu', 'password' => password, 'lt' => lt, 'execution' => execution, '_eventId' => _eventId, 'submit' => 'LOGIN');
 	request['Set-Cookie'] = cookie;
 	request['User-Agent'] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:14.0) Gecko/20100101 Firefox/14.0.1"
 	request['Refer'] = "https://cas.thoughtworks.com/cas/login?service=https%3A%2F%2Fjigsaw.thoughtworks.com%2F"
@@ -59,7 +59,7 @@ def post(uri, cookie, lt, execution, _eventId)
 	end
 end
 
-resp = post("https://cas.thoughtworks.com/cas/login?service=https%3A%2F%2Fjigsaw.thoughtworks.com%2F", cookie, lt, execution, _eventId);
+resp = post("https://cas.thoughtworks.com/cas/login?service=https%3A%2F%2Fjigsaw.thoughtworks.com%2F", cookie, lt, execution, _eventId, 'fdsa');
 
 cookie = resp['set-cookie'];
 
@@ -68,8 +68,7 @@ lt = resp2.body.match(/type="hidden" name="lt" value="(.*)"/).captures
 execution = resp2.body.match(/type="hidden" name="execution" value="(.*)"/).captures
 _eventId = resp2.body.match(/type="hidden" name="_eventId" value="(.*)"/).captures
 
-resp3 = post(resp['location'], cookie, lt, execution, _eventId);
+resp3 = post(resp['location'], cookie, lt, execution, _eventId, "14175674");
 
 puts resp3;
-
 
