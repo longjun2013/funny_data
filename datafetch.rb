@@ -11,8 +11,10 @@ page = agent.get("https://jigsaw.thoughtworks.com/")
 form = page.forms.first
 
 form.username = "ljliu"
+`stty -echo`
 puts "Please input password:"
 form.password = gets.chomp
+`stty echo`
 agent.submit(form)
 
 page = agent.page.link_with(:text => 'Assignments').click
